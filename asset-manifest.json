@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/forage-and-heal/static/css/main.e6c13ad2.css",
+    "main.js": "/forage-and-heal/static/js/main.a741f2f8.js",
+    "static/js/453.4e03a5b9.chunk.js": "/forage-and-heal/static/js/453.4e03a5b9.chunk.js",
+    "index.html": "/forage-and-heal/index.html",
+    "main.e6c13ad2.css.map": "/forage-and-heal/static/css/main.e6c13ad2.css.map",
+    "main.a741f2f8.js.map": "/forage-and-heal/static/js/main.a741f2f8.js.map",
+    "453.4e03a5b9.chunk.js.map": "/forage-and-heal/static/js/453.4e03a5b9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.a741f2f8.js"
+  ]
+}
