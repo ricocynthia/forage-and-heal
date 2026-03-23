@@ -2,7 +2,7 @@
 
 A searchable reference app for wild plants and medicinal mushrooms found in Minnesota. Built with React.
 
-**Live app:** [your-link-here]
+**Live app:** https://ricocynthia.github.io/forage-and-heal/
 
 ---
 
