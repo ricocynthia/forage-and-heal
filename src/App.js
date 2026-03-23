@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { emojiMap } from "./helpers/emojiMap";
 
 const categories = ["All", "Plant", "Mushroom"];
 const categoryColors = {
@@ -32,7 +33,7 @@ function Card({ item, onClick }) {
       onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}
     >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-        <span style={{ fontSize: "2rem" }}>🌿</span>
+        <span style={{ fontSize: "2rem" }}>{emojiMap[item.name] || "🌿"}</span>
         <Badge category={item.category} />
       </div>
       <div>
@@ -56,7 +57,7 @@ function Modal({ item, onClose }) {
     <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(28,43,30,0.6)", display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem", zIndex: 1000 }}>
       <div onClick={e => e.stopPropagation()} style={{ background: "#f7f3ec", borderRadius: "20px", padding: "2rem", maxWidth: "560px", width: "100%", maxHeight: "85vh", overflowY: "auto", display: "flex", flexDirection: "column", gap: "1rem" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-          <span style={{ fontSize: "2.5rem" }}>🌿</span>
+          <span style={{ fontSize: "2.5rem" }}>{emojiMap[item.name] || "🌿"}</span>
           <button onClick={onClose} style={{ background: "none", border: "none", fontSize: "1.2rem", cursor: "pointer", color: "#7a8c72", padding: "4px 8px" }}>✕</button>
         </div>
         <div>
