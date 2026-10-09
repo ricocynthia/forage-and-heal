@@ -1,4 +1,4 @@
-import { MONTHS, inSeason, namedParts } from '../data/harvest';
+import { MONTHS, inSeason, isQuiet, namedParts, nextActiveMonth } from '../data/harvest';
 import { plateFor } from '../lib/media';
 import { capitalize, joinWords, slugify, tidy } from '../lib/text';
 import { useEffect, useRef } from 'react';
@@ -33,7 +33,11 @@ export default function Plates({ data, month, search, onSearch, kind, onKind, fo
     input.current.focus({ preventScroll: true });
   }, [focusSearch]);
 
+  const quiet = isQuiet(month);
   const ready = data.filter((item) => inSeason(item.name, month));
+  // In a quiet month, look ahead to whatever comes back first.
+  const returns = quiet ? nextActiveMonth(data.map((item) => item.name), month) : null;
+  const returning = returns ? data.filter((item) => inSeason(item.name, returns)) : [];
   const phrases = ready.map((item) => {
     const parts = namedParts(item.name, month);
     return item.name.toLowerCase() + (parts.length ? ` ${joinWords(parts)}` : '');
@@ -41,14 +45,18 @@ export default function Plates({ data, month, search, onSearch, kind, onKind, fo
   const heroLine = phrases.length
     ? `${capitalize(phrases.join(', '))}.`
     : 'Nothing in this guide is ready this month. A good time for reading ahead.';
+  const returningNames = returning.map((item) => item.name.toLowerCase());
+  const quietLine = `Winter months are quiet. Nothing in this guide can be gathered in ${MONTHS[month - 1]}.`
+    + (returns ? ` Gathering starts again in ${MONTHS[returns - 1]}, with ${joinWords(returningNames)}.` : '');
 
   // One plant and two mushrooms when the season allows, so the opening shows both plates.
   const readyPlants = ready.filter((item) => item.category === 'Plant');
   const readyMushrooms = ready.filter((item) => item.category === 'Mushroom');
-  const featured = [...readyPlants.slice(0, 1), ...readyMushrooms.slice(1, 3)];
+  let featured = [...readyPlants.slice(0, 1), ...readyMushrooms.slice(1, 3)];
   ready.forEach((item) => {
     if (featured.length < 3 && !featured.includes(item)) featured.push(item);
   });
+  if (quiet) featured = returning.slice(0, 3);
 
   const needle = search.trim().toLowerCase();
   const shown = data.filter((item) => (kind === 'All' || item.category === kind) && matches(item, needle));
@@ -62,8 +70,8 @@ export default function Plates({ data, month, search, onSearch, kind, onKind, fo
     <>
       <section className="opening">
         <div className="opening-text">
-          <h1>Ready to gather in {MONTHS[month - 1]}</h1>
-          <p className="opening-list">{heroLine}</p>
+          <h1>{quiet ? 'Winter is quiet' : `Ready to gather in ${MONTHS[month - 1]}`}</h1>
+          <p className="opening-list">{quiet ? quietLine : heroLine}</p>
           <p><a className="text-link" href="#/calendar">See the whole harvest year</a></p>
         </div>
         {featured.length > 0 && (
@@ -74,7 +82,9 @@ export default function Plates({ data, month, search, onSearch, kind, onKind, fo
                 <a key={item.name} href={`#/species/${slugify(item.name)}`}>
                   <Drawing name={item.name} />
                   <span className="figure-name">{item.name}</span>
-                  <span className="figure-now">{parts.length ? joinWords(parts) : tidy(item.season).toLowerCase()}</span>
+                  <span className="figure-now">
+                    {quiet ? `back in ${MONTHS[returns - 1]}` : (parts.length ? joinWords(parts) : tidy(item.season).toLowerCase())}
+                  </span>
                 </a>
               );
             })}

@@ -6,6 +6,9 @@
 //   full bloom   = July, August   early fall = September     fall = September, October
 //   late fall    = November       winter = December to February
 // Edit the numbers below (1 = January, 12 = December) if a month is off.
+//
+// Winter is treated as a quiet season: see QUIET_MONTHS further down. Nothing is shown as
+// ready in those months, whatever the lists below say.
 
 const span = (from, to) => {
   const months = [];
@@ -18,6 +21,11 @@ export const MONTHS = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December',
 ];
+
+// Months when nothing is gathered. The guide says so plainly instead of listing leftovers.
+// Add 3 here to make March quiet too.
+export const QUIET_MONTHS = [12, 1, 2];
+export const isQuiet = (month) => QUIET_MONTHS.includes(month);
 
 export const HARVEST = {
   Burdock: { roots: [9, 10], leaves: [4, 5], seeds: [9, 10, 11, 12, 1, 2] },
@@ -45,11 +53,20 @@ export const HARVEST = {
 // Parts of a species that can be gathered in a month (1 to 12). Empty when out of season or unknown.
 export const partsIn = (name, month) => {
   const parts = HARVEST[name];
-  if (!parts) return [];
+  if (!parts || isQuiet(month)) return [];
   return Object.keys(parts).filter((part) => parts[part].includes(month));
 };
 
 export const inSeason = (name, month) => partsIn(name, month).length > 0;
+
+// The next month, after this one, in which any of the given species can be gathered.
+export const nextActiveMonth = (names, month) => {
+  for (let step = 1; step <= 12; step += 1) {
+    const candidate = ((month - 1 + step) % 12) + 1;
+    if (names.some((name) => inSeason(name, candidate))) return candidate;
+  }
+  return null;
+};
 
 // Plant parts worth naming. Mushrooms are gathered whole, so they have none.
 export const namedParts = (name, month) => partsIn(name, month).filter((part) => part !== 'fruiting');

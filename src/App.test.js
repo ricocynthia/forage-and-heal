@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import App from './App';
 import { captionFromFile, photosFor } from './lib/media';
 import { slugify, tidy } from './lib/text';
-import { namedParts, partsIn } from './data/harvest';
+import { namedParts, nextActiveMonth, partsIn } from './data/harvest';
 
 const elderberry = {
   id: 5,
@@ -57,6 +57,15 @@ test('an entry shows the photo section once the species has a photo', async () =
   expect(screen.getByText('Ripe berries')).toBeInTheDocument();
 });
 
+test('winter says plainly that nothing is gathered', async () => {
+  const january = jest.spyOn(Date.prototype, 'getMonth').mockReturnValue(0);
+  render(<App />);
+  expect(await screen.findByText('Winter is quiet')).toBeInTheDocument();
+  expect(screen.getByText(/Nothing in this guide can be gathered in January\. Gathering starts again in April, with elderberry\./)).toBeInTheDocument();
+  expect(screen.queryByText(/Ready now/)).not.toBeInTheDocument();
+  january.mockRestore();
+});
+
 test('says so when the guide cannot be loaded', async () => {
   jest.spyOn(console, 'error').mockImplementation(() => {});
   global.fetch = jest.fn(() => Promise.reject(new Error('offline')));
@@ -74,4 +83,8 @@ test('helpers', () => {
   expect(partsIn('Burdock', 10)).toEqual(['roots', 'seeds']);
   expect(namedParts('Chanterelle', 7)).toEqual([]);
   expect(partsIn('Morel', 10)).toEqual([]);
+  expect(partsIn('Chaga', 1)).toEqual([]);
+  expect(partsIn('Yellow Dock', 12)).toEqual([]);
+  expect(partsIn('Chaga', 3)).toEqual(['fruiting']);
+  expect(nextActiveMonth(['Chaga', 'Morel'], 1)).toBe(3);
 });
