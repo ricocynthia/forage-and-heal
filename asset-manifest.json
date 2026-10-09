@@ -1,15 +1,36 @@
 {
   "files": {
-    "main.css": "/forage-and-heal/static/css/main.e6c13ad2.css",
-    "main.js": "/forage-and-heal/static/js/main.710cc654.js",
+    "main.css": "/forage-and-heal/static/css/main.14f555f7.css",
+    "main.js": "/forage-and-heal/static/js/main.d596f508.js",
     "static/js/453.4e03a5b9.chunk.js": "/forage-and-heal/static/js/453.4e03a5b9.chunk.js",
+    "static/media/lions-mane.webp": "/forage-and-heal/static/media/lions-mane.227f0fc169fe9388afcc.webp",
+    "static/media/chicken-of-the-woods.webp": "/forage-and-heal/static/media/chicken-of-the-woods.d26e1aa9a78623208883.webp",
+    "static/media/oyster-mushroom.webp": "/forage-and-heal/static/media/oyster-mushroom.d33125f1ff1a159eee68.webp",
+    "static/media/elderberry.webp": "/forage-and-heal/static/media/elderberry.371437db8755a78ab858.webp",
+    "static/media/maitake.webp": "/forage-and-heal/static/media/maitake.5b6ad83269c13e2cd6f2.webp",
+    "static/media/cauliflower-mushroom.webp": "/forage-and-heal/static/media/cauliflower-mushroom.45a5fe104abdd5fb44bc.webp",
+    "static/media/chaga.webp": "/forage-and-heal/static/media/chaga.76bcbe49ccde9914f8d9.webp",
+    "static/media/burdock.webp": "/forage-and-heal/static/media/burdock.1422f1223558761bba96.webp",
+    "static/media/paper.jpg": "/forage-and-heal/static/media/paper.8f52964c9313b445cd04.jpg",
+    "static/media/giant-puffball.webp": "/forage-and-heal/static/media/giant-puffball.637dd27e9b1fafa59a8e.webp",
+    "static/media/turkey-tail.webp": "/forage-and-heal/static/media/turkey-tail.68e3bb242c378e24c898.webp",
+    "static/media/dandelion.webp": "/forage-and-heal/static/media/dandelion.29b330cb426df8ce58ad.webp",
+    "static/media/chanterelle.webp": "/forage-and-heal/static/media/chanterelle.961e53fb98b9d10f11f9.webp",
+    "static/media/stinging-nettle.webp": "/forage-and-heal/static/media/stinging-nettle.f2685c4419572ace5eca.webp",
+    "static/media/mullein.webp": "/forage-and-heal/static/media/mullein.2d41af38a04f0ec0a878.webp",
+    "static/media/morel.webp": "/forage-and-heal/static/media/morel.60b500f00a1f3d8def5b.webp",
+    "static/media/catnip.webp": "/forage-and-heal/static/media/catnip.3861f78d0c6d232f4a39.webp",
+    "static/media/yellow-dock.webp": "/forage-and-heal/static/media/yellow-dock.ac140bb681c1b7954eca.webp",
+    "static/media/goldenrod.webp": "/forage-and-heal/static/media/goldenrod.e5186b291bcfb17389fb.webp",
+    "static/media/motherwort.webp": "/forage-and-heal/static/media/motherwort.daa5f19814fecb4d53b9.webp",
+    "static/media/echinacea.webp": "/forage-and-heal/static/media/echinacea.25a628f9143cecc2c0ea.webp",
     "index.html": "/forage-and-heal/index.html",
-    "main.e6c13ad2.css.map": "/forage-and-heal/static/css/main.e6c13ad2.css.map",
-    "main.710cc654.js.map": "/forage-and-heal/static/js/main.710cc654.js.map",
+    "main.14f555f7.css.map": "/forage-and-heal/static/css/main.14f555f7.css.map",
+    "main.d596f508.js.map": "/forage-and-heal/static/js/main.d596f508.js.map",
     "453.4e03a5b9.chunk.js.map": "/forage-and-heal/static/js/453.4e03a5b9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e6c13ad2.css",
-    "static/js/main.710cc654.js"
+    "static/css/main.14f555f7.css",
+    "static/js/main.d596f508.js"
   ]
 }
