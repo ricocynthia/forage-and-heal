@@ -1,7 +1,11 @@
 import { MONTHS, inSeason, namedParts } from '../data/harvest';
 import { plateFor } from '../lib/media';
 import { capitalize, joinWords, slugify, tidy } from '../lib/text';
+import { useEffect, useRef } from 'react';
 import KindFilter from './KindFilter';
+
+// Each of these finds something in the guide.
+const TRY_THESE = ['sleep', 'immune', 'cold and flu', 'anxiety', 'digestive', 'liver'];
 
 const PLATES = [
   ['Plant', 'Plate I. Plants', 'wild herbs, with the part to gather'],
@@ -20,7 +24,15 @@ function matches(item, needle) {
   return haystack.includes(needle);
 }
 
-export default function Plates({ data, month, search, onSearch, kind, onKind }) {
+export default function Plates({ data, month, search, onSearch, kind, onKind, focusSearch }) {
+  const input = useRef(null);
+  const searchBox = useRef(null);
+  useEffect(() => {
+    if (!focusSearch || !input.current) return;
+    if (searchBox.current.scrollIntoView) searchBox.current.scrollIntoView({ block: 'center' });
+    input.current.focus({ preventScroll: true });
+  }, [focusSearch]);
+
   const ready = data.filter((item) => inSeason(item.name, month));
   const phrases = ready.map((item) => {
     const parts = namedParts(item.name, month);
@@ -70,6 +82,35 @@ export default function Plates({ data, month, search, onSearch, kind, onKind }) 
         )}
       </section>
 
+      <form className="search" role="search" ref={searchBox} onSubmit={(e) => e.preventDefault()}>
+        <label htmlFor="find">Search the guide</label>
+        <div className="search-field">
+          <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+            <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.8" />
+            <path d="M15.5 15.5 21 21" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+          </svg>
+          <input
+            id="find"
+            ref={input}
+            type="search"
+            value={search}
+            onChange={(e) => onSearch(e.target.value)}
+            placeholder="A name, a use or a symptom"
+            autoComplete="off"
+          />
+          {search && <button type="button" className="smallcaps" onClick={() => { onSearch(''); input.current.focus(); }}>Clear</button>}
+        </div>
+        <div className="search-tries">
+          <span>Try</span>
+          {TRY_THESE.map((word) => (
+            <button key={word} type="button" aria-pressed={needle === word} onClick={() => onSearch(word)}>{word}</button>
+          ))}
+        </div>
+        <p className="search-count" aria-live="polite">
+          {needle ? `${shown.length} of ${data.length} species match “${search.trim()}”.` : ''}
+        </p>
+      </form>
+
       <section className="caution" aria-label="Safety">
         <h2 className="smallcaps">Check every find twice</h2>
         <p>
@@ -81,16 +122,6 @@ export default function Plates({ data, month, search, onSearch, kind, onKind }) 
       <section className="plates">
         <div className="plates-tools">
           <KindFilter kind={kind} onChange={onKind} total={data.length} />
-          <div className="find">
-            <label htmlFor="find" className="smallcaps">Find</label>
-            <input
-              id="find"
-              type="search"
-              value={search}
-              onChange={(e) => onSearch(e.target.value)}
-              placeholder="a name, or a use like sleep or liver"
-            />
-          </div>
         </div>
 
         {plates.map((plate) => (
@@ -119,7 +150,7 @@ export default function Plates({ data, month, search, onSearch, kind, onKind }) 
 
         {plates.length === 0 && (
           <p className="nothing">
-            Nothing here matches “{search}”. Try a use like immune, sleep or liver.
+            Nothing here matches “{search}”. Try one of the words under the search box.
           </p>
         )}
       </section>

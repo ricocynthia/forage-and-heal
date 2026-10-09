@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import App from './App';
 import { captionFromFile, photosFor } from './lib/media';
 import { slugify, tidy } from './lib/text';
@@ -30,6 +30,16 @@ test('lists the species from the guide', async () => {
   render(<App />);
   expect(await screen.findByText('Plate I. Plants')).toBeInTheDocument();
   expect(screen.getByText('Elderberry')).toBeInTheDocument();
+});
+
+test('search has a visible label, and a suggested word filters the plates', async () => {
+  render(<App />);
+  const box = await screen.findByLabelText('Search the guide');
+  fireEvent.click(screen.getByRole('button', { name: 'immune' }));
+  expect(box).toHaveValue('immune');
+  expect(screen.getByText('1 of 1 species match “immune”.')).toBeInTheDocument();
+  fireEvent.change(box, { target: { value: 'zzz' } });
+  expect(screen.queryByText('Plate I. Plants')).not.toBeInTheDocument();
 });
 
 test('an entry leads with its warning and hides the photo section when there are no photos', async () => {

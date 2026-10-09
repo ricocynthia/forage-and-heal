@@ -16,6 +16,7 @@ export default function ForageAndHeal() {
   const [status, setStatus] = useState('loading');
   const [search, setSearch] = useState('');
   const [kind, setKind] = useState('All');
+  const [focusSearch, setFocusSearch] = useState(0);
   const month = new Date().getMonth() + 1;
 
   const load = useCallback(() => {
@@ -36,6 +37,12 @@ export default function ForageAndHeal() {
   }, []);
 
   useEffect(() => { load(); }, [load]);
+
+  // The Search button in the masthead works from any page: go to the plates, then put the cursor in the box.
+  const goToSearch = () => {
+    if (route.view !== 'plates') window.location.hash = '#/';
+    setFocusSearch((n) => n + 1);
+  };
 
   // Plants first, then mushrooms, numbered like figures on a plate.
   const data = useMemo(() => {
@@ -62,12 +69,12 @@ export default function ForageAndHeal() {
       ? <Entry item={entry} />
       : <div className="notice"><p>That species is not in the guide.</p><a className="text-link" href="#/">Back to all species</a></div>;
   } else {
-    page = <Plates data={data} month={month} search={search} onSearch={setSearch} kind={kind} onKind={setKind} />;
+    page = <Plates data={data} month={month} search={search} onSearch={setSearch} kind={kind} onKind={setKind} focusSearch={focusSearch} />;
   }
 
   return (
     <div className="page">
-      <Header view={route.view} />
+      <Header view={route.view} onSearch={goToSearch} />
       <main>{page}</main>
       <Footer />
     </div>
