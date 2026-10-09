@@ -7,8 +7,9 @@
 //   late fall    = November       winter = December to February
 // Edit the numbers below (1 = January, 12 = December) if a month is off.
 //
-// Winter is treated as a quiet season: see QUIET_MONTHS further down. Nothing is shown as
-// ready in those months, whatever the lists below say.
+// Two readings differ from the book's wording on purpose:
+//   - Yellow dock roots stop in November. The book says "through winter", but the ground is frozen.
+//   - Chaga and turkey tail stay year-round, and burdock seeds run into winter, as the book says.
 
 const span = (from, to) => {
   const months = [];
@@ -22,8 +23,8 @@ export const MONTHS = [
   'July', 'August', 'September', 'October', 'November', 'December',
 ];
 
-// Months when nothing is gathered. The guide says so plainly instead of listing leftovers.
-// Add 3 here to make March quiet too.
+// Winter. The home page and calendar say these months are quiet and name the few things
+// that can still be gathered. Add 3 here to treat March the same way.
 export const QUIET_MONTHS = [12, 1, 2];
 export const isQuiet = (month) => QUIET_MONTHS.includes(month);
 
@@ -37,7 +38,7 @@ export const HARVEST = {
   Motherwort: { leaves: [4, 5, 6], flowers: [8, 9, 10] },
   Mullein: { leaves: span(4, 8), flowers: [8, 9] },
   'Stinging Nettle': { leaves: [4], roots: [11] },
-  'Yellow Dock': { leaves: [4, 5], roots: [9, 10, 11, 12, 1, 2] },
+  'Yellow Dock': { leaves: [4, 5], roots: [9, 10, 11] },
   Chaga: { fruiting: ALL_YEAR },
   Morel: { fruiting: [4, 5, 6] },
   Maitake: { fruiting: span(8, 11) },
@@ -53,20 +54,11 @@ export const HARVEST = {
 // Parts of a species that can be gathered in a month (1 to 12). Empty when out of season or unknown.
 export const partsIn = (name, month) => {
   const parts = HARVEST[name];
-  if (!parts || isQuiet(month)) return [];
+  if (!parts) return [];
   return Object.keys(parts).filter((part) => parts[part].includes(month));
 };
 
 export const inSeason = (name, month) => partsIn(name, month).length > 0;
-
-// The next month, after this one, in which any of the given species can be gathered.
-export const nextActiveMonth = (names, month) => {
-  for (let step = 1; step <= 12; step += 1) {
-    const candidate = ((month - 1 + step) % 12) + 1;
-    if (names.some((name) => inSeason(name, candidate))) return candidate;
-  }
-  return null;
-};
 
 // Plant parts worth naming. Mushrooms are gathered whole, so they have none.
 export const namedParts = (name, month) => partsIn(name, month).filter((part) => part !== 'fruiting');

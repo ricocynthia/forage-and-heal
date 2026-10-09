@@ -1,4 +1,4 @@
-import { HARVEST, MONTHS, isQuiet } from '../data/harvest';
+import { HARVEST, MONTHS } from '../data/harvest';
 import { capitalize, tidy } from '../lib/text';
 import FieldPhotos from './FieldPhotos';
 import { Drawing } from './Plates';
@@ -33,7 +33,7 @@ function GatherStrips({ item }) {
         {MONTHS.map((name) => <span key={name}>{name.charAt(0)}</span>)}
       </div>
       {Object.keys(parts).map((part) => {
-        const months = parts[part].filter((m) => !isQuiet(m));
+        const months = parts[part];
         const named = months.map((m) => MONTHS[m - 1]).join(', ');
         return (
           <div className="strip" key={part} role="img" aria-label={`${capitalize(part)}: ${named}`}>

@@ -21,7 +21,7 @@ export default function Calendar({ data, thisMonth, kind, onKind }) {
           <h1>The harvest year</h1>
           <p className="opening-list">
             {quiet
-              ? `${MONTHS[month - 1]} is a quiet month. Nothing is gathered in winter. Pick a month to look ahead.`
+              ? `${MONTHS[month - 1]} is a quiet month. Only ${ready} of the ${data.length} can be gathered. Pick a month to look ahead.`
               : `${ready} of the ${data.length} can be gathered in ${MONTHS[month - 1]}. Pick a month to look ahead.`}
           </p>
         </div>
@@ -40,7 +40,7 @@ export default function Calendar({ data, thisMonth, kind, onKind }) {
           </div>
 
           {rows.map((item) => (
-            <div className={`calendar-row${quiet || inSeason(item.name, month) ? '' : ' is-resting'}`} key={item.name}>
+            <div className={`calendar-row${inSeason(item.name, month) ? '' : ' is-resting'}`} key={item.name}>
               <a className="calendar-name" href={`#/species/${slugify(item.name)}`}>
                 <Drawing name={item.name} className="calendar-thumb" />
                 <span>{item.name}</span>
@@ -67,7 +67,7 @@ export default function Calendar({ data, thisMonth, kind, onKind }) {
       <div className="calendar-key">
         <span><i className="swatch is-plant" />plant part to gather</span>
         <span><i className="swatch is-mushroom" />mushroom fruiting</span>
-        <span>Months are approximate for Minnesota. Weather moves them a few weeks either way. Winter is left quiet.</span>
+        <span>Months are approximate for Minnesota. Weather moves them a few weeks either way.</span>
       </div>
     </>
   );
