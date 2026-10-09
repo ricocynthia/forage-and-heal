@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/forage-and-heal/static/css/main.14f555f7.css",
-    "main.js": "/forage-and-heal/static/js/main.d596f508.js",
+    "main.css": "/forage-and-heal/static/css/main.8cf0fc2b.css",
+    "main.js": "/forage-and-heal/static/js/main.ad0476dd.js",
     "static/js/453.4e03a5b9.chunk.js": "/forage-and-heal/static/js/453.4e03a5b9.chunk.js",
     "static/media/lions-mane.webp": "/forage-and-heal/static/media/lions-mane.227f0fc169fe9388afcc.webp",
     "static/media/chicken-of-the-woods.webp": "/forage-and-heal/static/media/chicken-of-the-woods.d26e1aa9a78623208883.webp",
@@ -25,12 +25,12 @@
     "static/media/motherwort.webp": "/forage-and-heal/static/media/motherwort.daa5f19814fecb4d53b9.webp",
     "static/media/echinacea.webp": "/forage-and-heal/static/media/echinacea.25a628f9143cecc2c0ea.webp",
     "index.html": "/forage-and-heal/index.html",
-    "main.14f555f7.css.map": "/forage-and-heal/static/css/main.14f555f7.css.map",
-    "main.d596f508.js.map": "/forage-and-heal/static/js/main.d596f508.js.map",
+    "main.8cf0fc2b.css.map": "/forage-and-heal/static/css/main.8cf0fc2b.css.map",
+    "main.ad0476dd.js.map": "/forage-and-heal/static/js/main.ad0476dd.js.map",
     "453.4e03a5b9.chunk.js.map": "/forage-and-heal/static/js/453.4e03a5b9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.14f555f7.css",
-    "static/js/main.d596f508.js"
+    "static/css/main.8cf0fc2b.css",
+    "static/js/main.ad0476dd.js"
   ]
 }
