@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MONTHS, inSeason, namedParts } from '../data/harvest';
+import { MONTHS, inSeason, isQuiet, namedParts } from '../data/harvest';
 import { slugify } from '../lib/text';
 import KindFilter from './KindFilter';
 import { Drawing } from './Plates';
@@ -12,6 +12,7 @@ export default function Calendar({ data, thisMonth, kind, onKind }) {
   const [month, setMonth] = useState(thisMonth);
   const ready = data.filter((item) => inSeason(item.name, month)).length;
   const rows = data.filter((item) => kind === 'All' || item.category === kind);
+  const quiet = isQuiet(month);
 
   return (
     <>
@@ -19,7 +20,9 @@ export default function Calendar({ data, thisMonth, kind, onKind }) {
         <div>
           <h1>The harvest year</h1>
           <p className="opening-list">
-            {ready} of the {data.length} can be gathered in {MONTHS[month - 1]}. Pick a month to look ahead.
+            {quiet
+              ? `${MONTHS[month - 1]} is a quiet month. Only ${ready} of the ${data.length} can be gathered. Pick a month to look ahead.`
+              : `${ready} of the ${data.length} can be gathered in ${MONTHS[month - 1]}. Pick a month to look ahead.`}
           </p>
         </div>
         <KindFilter kind={kind} onChange={onKind} total={data.length} />
@@ -30,7 +33,7 @@ export default function Calendar({ data, thisMonth, kind, onKind }) {
           <div className="calendar-row calendar-months">
             <span />
             {MONTHS.map((name, i) => (
-              <button key={name} type="button" className="smallcaps" aria-label={`Show ${name}`} aria-pressed={month === i + 1} onClick={() => setMonth(i + 1)}>
+              <button key={name} type="button" className={`smallcaps${isQuiet(i + 1) ? ' is-quiet' : ''}`} aria-label={`Show ${name}`} aria-pressed={month === i + 1} onClick={() => setMonth(i + 1)}>
                 {name.slice(0, 3)}
               </button>
             ))}

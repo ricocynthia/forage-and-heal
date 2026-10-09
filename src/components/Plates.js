@@ -1,4 +1,4 @@
-import { MONTHS, inSeason, namedParts } from '../data/harvest';
+import { MONTHS, inSeason, isQuiet, namedParts } from '../data/harvest';
 import { plateFor } from '../lib/media';
 import { capitalize, joinWords, slugify, tidy } from '../lib/text';
 import { useEffect, useRef } from 'react';
@@ -33,6 +33,7 @@ export default function Plates({ data, month, search, onSearch, kind, onKind, fo
     input.current.focus({ preventScroll: true });
   }, [focusSearch]);
 
+  const quiet = isQuiet(month);
   const ready = data.filter((item) => inSeason(item.name, month));
   const phrases = ready.map((item) => {
     const parts = namedParts(item.name, month);
@@ -41,6 +42,10 @@ export default function Plates({ data, month, search, onSearch, kind, onKind, fo
   const heroLine = phrases.length
     ? `${capitalize(phrases.join(', '))}.`
     : 'Nothing in this guide is ready this month. A good time for reading ahead.';
+  // Winter gets an honest opening: quiet, with the few things that can still be gathered.
+  const quietLine = phrases.length
+    ? `Only a few things can be gathered in ${MONTHS[month - 1]}: ${joinWords(phrases)}.`
+    : `Nothing in this guide can be gathered in ${MONTHS[month - 1]}.`;
 
   // One plant and two mushrooms when the season allows, so the opening shows both plates.
   const readyPlants = ready.filter((item) => item.category === 'Plant');
@@ -62,8 +67,8 @@ export default function Plates({ data, month, search, onSearch, kind, onKind, fo
     <>
       <section className="opening">
         <div className="opening-text">
-          <h1>Ready to gather in {MONTHS[month - 1]}</h1>
-          <p className="opening-list">{heroLine}</p>
+          <h1>{quiet ? 'Winter is quiet' : `Ready to gather in ${MONTHS[month - 1]}`}</h1>
+          <p className="opening-list">{quiet ? quietLine : heroLine}</p>
           <p><a className="text-link" href="#/calendar">See the whole harvest year</a></p>
         </div>
         {featured.length > 0 && (

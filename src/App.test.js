@@ -57,6 +57,17 @@ test('an entry shows the photo section once the species has a photo', async () =
   expect(screen.getByText('Ripe berries')).toBeInTheDocument();
 });
 
+test('winter is called quiet, and still lists the few things that can be gathered', async () => {
+  const january = jest.spyOn(Date.prototype, 'getMonth').mockReturnValue(0);
+  const chaga = { ...elderberry, id: 11, name: 'Chaga', category: 'Mushroom', season: 'Year-round' };
+  global.fetch = jest.fn(() => Promise.resolve({ ok: true, json: () => Promise.resolve({ forageables: [elderberry, chaga] }) }));
+  render(<App />);
+  expect(await screen.findByText('Winter is quiet')).toBeInTheDocument();
+  expect(screen.getByText('Only a few things can be gathered in January: chaga.')).toBeInTheDocument();
+  expect(screen.getAllByText('Ready now')).toHaveLength(1);
+  january.mockRestore();
+});
+
 test('says so when the guide cannot be loaded', async () => {
   jest.spyOn(console, 'error').mockImplementation(() => {});
   global.fetch = jest.fn(() => Promise.reject(new Error('offline')));
@@ -74,4 +85,8 @@ test('helpers', () => {
   expect(partsIn('Burdock', 10)).toEqual(['roots', 'seeds']);
   expect(namedParts('Chanterelle', 7)).toEqual([]);
   expect(partsIn('Morel', 10)).toEqual([]);
+  expect(partsIn('Chaga', 1)).toEqual(['fruiting']);
+  expect(partsIn('Burdock', 1)).toEqual(['seeds']);
+  expect(partsIn('Yellow Dock', 11)).toEqual(['roots']);
+  expect(partsIn('Yellow Dock', 12)).toEqual([]);
 });

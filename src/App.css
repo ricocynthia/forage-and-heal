@@ -255,6 +255,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .calendar-row.is-resting { opacity: 0.55; }
 .calendar-months { border-bottom: 1px solid var(--ink); padding-bottom: 6px; }
 .calendar-months button { height: 44px; border: none; border-radius: 22px; background: transparent; font-size: 19px; }
+.calendar-months button.is-quiet { font-style: italic; color: var(--muted); }
 .calendar-months button[aria-pressed='true'] { background: var(--ink); color: #f1e9d6; }
 .calendar-name { display: flex; align-items: center; gap: 10px; min-width: 0; padding-right: 14px; text-decoration: none; font-size: 23px; line-height: 1.1; }
 .calendar-thumb { width: 48px; flex: none; }

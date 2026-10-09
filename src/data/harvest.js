@@ -6,6 +6,10 @@
 //   full bloom   = July, August   early fall = September     fall = September, October
 //   late fall    = November       winter = December to February
 // Edit the numbers below (1 = January, 12 = December) if a month is off.
+//
+// Two readings differ from the book's wording on purpose:
+//   - Yellow dock roots stop in November. The book says "through winter", but the ground is frozen.
+//   - Chaga and turkey tail stay year-round, and burdock seeds run into winter, as the book says.
 
 const span = (from, to) => {
   const months = [];
@@ -19,6 +23,11 @@ export const MONTHS = [
   'July', 'August', 'September', 'October', 'November', 'December',
 ];
 
+// Winter. The home page and calendar say these months are quiet and name the few things
+// that can still be gathered. Add 3 here to treat March the same way.
+export const QUIET_MONTHS = [12, 1, 2];
+export const isQuiet = (month) => QUIET_MONTHS.includes(month);
+
 export const HARVEST = {
   Burdock: { roots: [9, 10], leaves: [4, 5], seeds: [9, 10, 11, 12, 1, 2] },
   Catnip: { leaves: [7, 8], flowers: [7, 8] },
@@ -29,7 +38,7 @@ export const HARVEST = {
   Motherwort: { leaves: [4, 5, 6], flowers: [8, 9, 10] },
   Mullein: { leaves: span(4, 8), flowers: [8, 9] },
   'Stinging Nettle': { leaves: [4], roots: [11] },
-  'Yellow Dock': { leaves: [4, 5], roots: [9, 10, 11, 12, 1, 2] },
+  'Yellow Dock': { leaves: [4, 5], roots: [9, 10, 11] },
   Chaga: { fruiting: ALL_YEAR },
   Morel: { fruiting: [4, 5, 6] },
   Maitake: { fruiting: span(8, 11) },
